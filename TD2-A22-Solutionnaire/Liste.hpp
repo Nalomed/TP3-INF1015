@@ -16,12 +16,14 @@ public:
 
 	T ajouter(shared_ptr <T> d);
 	T retirer(const T aRetirer);
-
 	T afficher() const;
+
+	
 	shared_ptr<T>& operator[](int index) { return elements_[index]; }
 
 	shared_ptr<T> trouverElement(const function<bool(shared_ptr<T>)> critere);
-	T changerCapacite(T nouvelleCapacite);S
+
+	T changerCapacite(T nouvelleCapacite);
 private:
 	  
 	T nElements_ = 0;
@@ -30,8 +32,6 @@ private:
 };
 
 //definition des methodes :
-
-
 template<typename T>
 T Liste<T>::afficher() const
 {
@@ -48,7 +48,7 @@ T Liste<T>::ajouter(shared_ptr <T> d)
 }
 
 template<typename T>
-T Liste<T>::trouverElement(const function<bool(shared_ptr<T>)> critere);
+ Liste<T>::shared_ptr<T> trouverElement(const function<bool(shared_ptr<T>)> critere)
 {
 	for (int i = 0; i < nElements_; i++)
 	{
@@ -57,7 +57,6 @@ T Liste<T>::trouverElement(const function<bool(shared_ptr<T>)> critere);
 	}
 	return nullptr;
 }
-
 
 template<typename T>
 T Liste<T>::retirer(const T aRetirer)
@@ -70,8 +69,6 @@ T Liste<T>::retirer(const T aRetirer)
 		}
 	}
 }
-
-
 
 template<typename T>
 T Liste<T>::changerCapacite(T nouvelleCapacite)

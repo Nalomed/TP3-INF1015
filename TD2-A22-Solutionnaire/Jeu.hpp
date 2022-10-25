@@ -27,15 +27,8 @@ public:
 	Liste<Concepteur>& getConcepteurs() { return concepteurs_; }
 
 	
-	shared_ptr<Concepteur> trouverConcepteur(function<bool(shared_ptr<Concepteur>)> critere)
-	{
-		for (unsigned i = 0; i < concepteurs_.size(); i++)
-		{
-			if (critere(concepteurs_[i]))
-				return concepteurs_[i];
-		}
-		return	nullptr;
-	}
+	shared_ptr<Concepteur> trouverConcepteur(function<bool(shared_ptr<Concepteur>)> critere);
+	
 
 private:
 	Liste<Concepteur> concepteurs_ = Liste<Concepteur>();
@@ -44,3 +37,13 @@ private:
 	std::string developpeur_;
 	
 };
+
+Jeu::trouverConcepteur(function<bool(shared_ptr<Concepteur>)> critere)
+{
+		for (int  i = 0; i < concepteurs_.size(); i++)
+		{
+			if (critere(concepteurs_[i]))
+				return concepteurs_[i];
+		}
+		return	nullptr;
+}
