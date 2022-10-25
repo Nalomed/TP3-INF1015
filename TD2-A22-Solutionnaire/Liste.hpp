@@ -1,36 +1,36 @@
 #pragma once 
 #include <cstddef>
+#include <memory>
+#include <cassert>
+#include "cppitertools/range.hpp"
 #include "gsl/span"
+using namespace std;
 
 template<typename T>
 class Liste {
-	//TODO: En faire une classe qui suit les principes OO.
-	//TODO: On veut pouvoir ajouter et enlever un Developpeur* de la liste, avec réallocation dynamique tel que faite pour ListeJeux.
-	//NOTE: Le code sera principalement copié de certaines fonctions écrites pour la partie 1, mais mises dans une classe.
+
 public:
 	Liste() = default;
-	~Liste();
+	Liste() { nElements_ = 0; capacite_ = 1; elements_ = make_unique<shared_ptr<T>[]>(capacite_); }
+	
 
-	T ajouter(T  *d);
-	T retirer(const T* aRetirer);
+	T ajouter(shared_ptr <T> d);
+	T retirer(const T aRetirer);
 
 	T afficher() const;
+	shared_ptr<T>& operator[](int index) { return elements_[index]; }
 
+	shared_ptr<T> trouverElement(const function<bool(shared_ptr<T>)> critere);
+	T changerCapacite(T nouvelleCapacite);S
 private:
-	T changerCapacite(T nouvelleCapacite);  // Pas dit si ça doit être public ou non.
-	gsl::span<T*> enSpan() const { return { elements_, nElements_ }; }  // Pourrait être public.
-
+	  
 	T nElements_ = 0;
 	T capacite_ = 0;  // Pas besoin de déclarer explicitement un corps de constructeur avec ces initialisations.
-	Developpeur** elements_ = nullptr;
+	unique_ptr<shared_ptr<T>[]> elements_ = nullptr;
 };
 
 //definition des methodes :
-template<typename T>
-Liste<T>::~Liste()
-{
-	delete[] elements_;
-}
+
 
 template<typename T>
 T Liste<T>::afficher() const
@@ -40,7 +40,7 @@ T Liste<T>::afficher() const
 }
 
 template<typename T>
-T Liste<T>::ajouter(T* d)
+T Liste<T>::ajouter(shared_ptr <T> d)
 {
 	if (nElements_ == capacite_)
 		changerCapacite(max(T(1), capacite_ * 2));
@@ -48,9 +48,21 @@ T Liste<T>::ajouter(T* d)
 }
 
 template<typename T>
-T Liste<T>::retirer(const T* aRetirer)
+T Liste<T>::trouverElement(const function<bool(shared_ptr<T>)> critere);
 {
-	for (T*& d : enSpan()) {
+	for (int i = 0; i < nElements_; i++)
+	{
+		if (critere(elements_[i]))
+			return  elements_[i];
+	}
+	return nullptr;
+}
+
+
+template<typename T>
+T Liste<T>::retirer(const T aRetirer)
+{
+	for (T& d : enSpan()) {
 		if (d == aRetirer) {
 			if (nElements_ > 1)
 				d = elements_[nElements_ - 1];
@@ -59,17 +71,30 @@ T Liste<T>::retirer(const T* aRetirer)
 	}
 }
 
+
+
 template<typename T>
 T Liste<T>::changerCapacite(T nouvelleCapacite)
 {
-	// Copie du code de changerTailleListeJeux, ajusté pour la classe.
-	assert(nouvelleCapacite >= nElements_); // On ne demande pas de supporter les réductions de nombre d'éléments.
-	Developpeur** nouvelleListe = new Developpeur * [nouvelleCapacite];
-	// Pas nécessaire de tester si liste.elements est nullptr puisque si c'est le cas, nElements est nécessairement 0.
-	for (size_t i : iter::range(nElements_))
-		nouvelleListe[i] = elements_[i];
-	delete[] elements_;
+	{
+		unique_ptr<shared_ptr<T>[]> nouveauxElements = make_unique<shared_ptr<T>[]>(nouvelleCapacite);
 
-	elements_ = nouvelleListe;
-	capacite_ = nouvelleCapacite;
+		for (unsigned i = 0; i < nouvelleCapacite; ++i)
+		{
+			if (i < capacite_)
+			{
+				
+				nouveauxElements[i] = move(elements_[i]);
+			}
+			else
+			{
+			
+				nouveauxElements[i] = make_shared<T>();
+			}
+		}
+
+		
+		elements_ = move(nouveauxElements);
+		capacite_ = nouvelleCapacite;
+	}
 }
