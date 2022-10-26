@@ -94,7 +94,7 @@ shared_ptr<Jeu> lireJeu(istream& fichier, Liste<Jeu>& lj)
 	
 }
 
-ListeJeux creerListeJeux(const string& nomFichier)
+Liste<Jeu> creerListeJeux(const string& nomFichier)
 {
 	ifstream fichier(nomFichier, ios::binary);
 	fichier.exceptions(ios::failbit);
@@ -102,9 +102,8 @@ ListeJeux creerListeJeux(const string& nomFichier)
 	Liste<Jeu> listeJeux;
 	for([[maybe_unused]] size_t n : iter::range(nElements))
 	{
-		ajouterJeu(listeJeux, lireJeu(fichier, listeJeux)); //
+		ajouterJeu(listeJeux, lireJeu(fichier, listeJeux));
 	}
-
 	return listeJeux; 
 }
 
@@ -138,9 +137,5 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv)
 	cout << "Adresse du premier concepteur de la copie du jeu : " << copieJeu.getConcepteurs()[0] << endl;
 
 
-
-
-
-	
 	
 }
