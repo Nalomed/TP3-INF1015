@@ -16,8 +16,8 @@ public:
 
 	T ajouter(shared_ptr <T> d);
 	T retirer(const T aRetirer);
-	T afficher() const;
-	T operator[] (int position);
+	
+	
 
 	shared_ptr<T>& operator[](int index) { return elements_[index]; }
 
@@ -34,14 +34,7 @@ private:
 
 //definition des methodes :
 
-template<typename T>
-T Liste<T>:: operator[](int posElement)
-{
-	for (int i = 0; i < Liste.capacite_; i++) {
-		if (i == posElement)
-			return  Liste.elements_;
-	}
-}
+
 
 template<typename T>
 T Liste<T>::ajouter(shared_ptr <T> d)
@@ -74,11 +67,6 @@ T Liste<T>::retirer(const T aRetirer)
 	}
 }
 
-template<typename T>
-inline shared_ptr<T> Liste<T>::trouverElement(const function<bool(shared_ptr<T>)> critere)
-{
-	return shared_ptr<T>();
-}
 
 template<typename T>
 T Liste<T>::changerCapacite(T nouvelleCapacite)
