@@ -3,40 +3,47 @@
 #include <string>
 #include <iostream>
 #include <vector>
-
+using namespace std;
 class Vilain : virtual public Personnage
 {
 public:
+
 	Vilain() = default;
 
-	Vilain(const std::string nom, const std::string titre, const std::string objectif) :
+
+	Vilain(const string& nom, const string& titre, const string& objectif) :
 		Personnage(nom, titre),
 		objectif_(objectif) 
 	{}
 
-	Vilain(const std::shared_ptr<Vilain> v) : 
-		Personnage(v->nom_, v->parution_),
-		objectif_(v->objectif_)
+
+	Vilain(const Vilain& vilain) : 
+		Personnage(vilain.nom_, vilain.titreJeu_),
+		objectif_(vilain.objectif_)
 	{}
 	 
-	void afficher() {
-		std::cout << color_ << " nom: " << nom_ << std::endl << "Parution: " << parution_ << std::endl << "Objectif : " << objectif_ << std::endl;
-	}
 
-	void changerCouleur(std::string couleur) {
-		this->color_ = COLOR.find(couleur)->second;
-	}
-
-	void setObjectif(const std::string objectif) {
-		this->objectif_ = objectif;
-	}
-
-	const std::string getObjetif() {
-		return this->objectif_;
-	}
+	ostream& afficherVilain(ostream& os, char couleur) const;
+	ostream& afficher(ostream& os) const override;
 
 
 protected:
-	std::string objectif_;
+	string objectif_;
 };
+
+ostream& Vilain::afficherVilain(ostream& os, char couleur) const
+{
+	Personnage::changerCouleur(os, couleur) << " Objectif : " << objectif_ << endl;
+
+	Personnage::changerCouleur(os, 'R');
+	return os;
+}
+
+ostream& Vilain::afficher(ostream& os) const
+{
+	Personnage::changerCouleur(os, 'R');
+	Personnage::afficher(os);
+	afficherVilain(os, 'R');
+	return os;
+}
 

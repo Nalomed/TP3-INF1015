@@ -43,7 +43,7 @@ ostream& Heros::afficherHero(ostream& os, char couleur) const
 	for (auto i = 0; i < nomsAllies_.size(); ++i)
 		os << "\t" << nomsAllies_[i] << endl;
 
-	Personnage::changerCouleur(os, ' ');
+	Personnage::changerCouleur(os, 'B');
 	return os;
 }
 
