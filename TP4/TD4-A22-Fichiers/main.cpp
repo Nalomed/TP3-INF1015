@@ -26,15 +26,25 @@ void testsPourCouvertureLectureBinaire()
 	assert(lireUintTailleVariable(iss) == 0xFEDCBA98);
 
 }
-template <typename T>
-void afficherVecteur(const vector<T> vect, const string& trait)
+
+void ajouter(vector<Personnage>& personnages, const vector<Vilain> vilains, const vector<Heros> heros)
 {
-	for (int i = 0; i < vect.size(); ++i)
+	for (int i = 0; i < heros.size(); ++i)
+		personnages.push_back(heros[i]);
+
+	for (int j = 0; j < vilains.size(); ++j)
+		personnages.push_back(vilains[j]);
+}
+template <typename T>
+void afficher(const vector<T> vect, const string& trait)
+{
+	for (int k = 0; k < vect.size(); ++k)
 	{
-		vect[i].afficher(cout);
+		vect[k].afficher(cout);
 		cout << trait << endl;
 	}
 }
+
 
 int main()
 {
@@ -95,28 +105,28 @@ int main()
 		vilains.push_back(vilain);
 	}
 
-	// Afficher le contenu du vecteur d'heros
-	afficherVecteur(herosVecteur, trait);
+	// Afficher vecteur d'heros
+	afficher(herosVecteur, trait);
 
-	// Afficher le contenu du vecteur de vilains
-	afficherVecteur(vilains, trait);
+	// Afficher vecteur de vilains
+	afficher(vilains, trait);
 
 	// Ajouter tout le vilains et heros au vecteur de personnages
-	ajouterPersonnages(personnages, vilains, herosVecteur);
+	ajouter(personnages, vilains, herosVecteur);
 
-	// Afficher le contenu du vecteur de personnages
-	afficherVecteur(personnages, trait);
+	// Afficher vecteur de personnages
+	afficher(personnages, trait);
 
 	// Creer un VilainHeros a partir du 3e vilain et 1er heros
 	VilainHeros vilainHeros = VilainHeros(vilains[2], herosVecteur[0]);
 
-	// Afficher ce VilainHeros en console
+	// Afficher VilainHeros en console
 	vilainHeros.afficher(cout);
 	cout << trait << endl;
 
-	// Ajouter ce VilainHeros au vecteur de personnages
+	// Ajouter  VilainHeros au vecteur de personnages
 	personnages.push_back(vilainHeros);
 
-	// Afficher le contenu du vecteur de personnages
-	afficherVecteur(personnages, trait);
+	// Afficher vecteur de personnages
+	afficher(personnages, trait);
 }
