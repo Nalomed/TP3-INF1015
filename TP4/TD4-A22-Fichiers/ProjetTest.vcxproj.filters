@@ -45,5 +45,14 @@
     <ClInclude Include="lectureBinaire.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Affichable.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Personnage.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Heros.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
