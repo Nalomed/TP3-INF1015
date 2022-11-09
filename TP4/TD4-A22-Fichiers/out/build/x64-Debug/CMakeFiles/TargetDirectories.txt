@@ -1,0 +1,3 @@
+C:/Users/hp/OneDrive/Documents/INF1015/TP3-INF1015/TP4/TD4-A22-Fichiers/out/build/x64-Debug/CMakeFiles/ProjetTD4.dir
+C:/Users/hp/OneDrive/Documents/INF1015/TP3-INF1015/TP4/TD4-A22-Fichiers/out/build/x64-Debug/CMakeFiles/edit_cache.dir
+C:/Users/hp/OneDrive/Documents/INF1015/TP3-INF1015/TP4/TD4-A22-Fichiers/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
