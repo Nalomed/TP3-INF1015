@@ -17,7 +17,7 @@ public:
 		nomsAllies_{ allies }
 	{}
 
-	// Constructeur de copie
+	
 	Heros(const Heros& heros) :
 		Personnage(heros.nom_, heros.titreJeu_),
 		ennemi_{ heros.ennemi_ },

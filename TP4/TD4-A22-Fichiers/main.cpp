@@ -3,6 +3,12 @@
 #include <sstream>
 #include <cassert>
 #include "bibliotheque_cours.hpp"
+#include <fstream>
+#include<iostream>
+#include "bibliotheque_cours.hpp"
+#include "Heros.hpp"
+#include "Vilain.hpp"
+#include "VilainHeros.hpp"
 using namespace std;
 
 ifstream ouvrirFichierBinaire(const string& nomFichier)
@@ -18,6 +24,16 @@ void testsPourCouvertureLectureBinaire()
 	assert(lireUintTailleVariable(iss) == 0x12);
 	assert(lireUintTailleVariable(iss) == 0x4321);
 	assert(lireUintTailleVariable(iss) == 0xFEDCBA98);
+
+}
+template <typename T>
+void afficherVecteur(const vector<T> vect, const string& trait)
+{
+	for (int i = 0; i < vect.size(); ++i)
+	{
+		vect[i].afficher(cout);
+		cout << trait << endl;
+	}
 }
 
 int main()
@@ -40,5 +56,67 @@ int main()
 	ifstream fichierVilains = ouvrirFichierBinaire("vilains.bin");
 
 	//TODO: Votre code pour le main commence ici (mais vous pouvez aussi ajouter/modifier du code avant si nécessaire)
+	// 
+	//creation des vecteurs
+	vector<Heros> herosVecteur ;
+	vector<Vilain> vilains;
+	vector<Personnage> personnages;
+	// Lire les heros
 
+	int nombreHeros = lireUintTailleVariable(fichierHeros);
+	for (int i = 0; i < nombreHeros; ++i)
+	{
+		string nom = lireString(fichierHeros);
+		string titre = lireString(fichierHeros);
+		string ennemi = lireString(fichierHeros);
+		int nAllies = lireUintTailleVariable(fichierHeros);
+		vector<string> allies;
+		for (int j = 0; j < nAllies; ++j)
+		{
+			// ajouter chaque allie a l'attribut de l'heros
+			allies.push_back(lireString(fichierHeros));
+		}
+
+		Heros heros = Heros(nom, titre, ennemi, allies);
+		// ajouter le heros au vecteur
+		herosVecteur.push_back(heros);
+	}
+
+	// Lire les vilains
+	unsigned nVilains = lireUintTailleVariable(fichierVilains);
+	for (unsigned i = 0; i < nVilains; ++i)
+	{
+		string nom = lireString(fichierVilains);
+		string titre = lireString(fichierVilains);
+		string objectif = lireString(fichierVilains);
+
+		Vilain vilain = Vilain(nom, titre, objectif);
+		// ajouter le vilain au vecteur
+		vilains.push_back(vilain);
+	}
+
+	// Afficher le contenu du vecteur d'heros
+	afficherVecteur(herosVecteur, trait);
+
+	// Afficher le contenu du vecteur de vilains
+	afficherVecteur(vilains, trait);
+
+	// Ajouter tout le vilains et heros au vecteur de personnages
+	ajouterPersonnages(personnages, vilains, herosVecteur);
+
+	// Afficher le contenu du vecteur de personnages
+	afficherVecteur(personnages, trait);
+
+	// Creer un VilainHeros a partir du 3e vilain et 1er heros
+	VilainHeros vilainHeros = VilainHeros(vilains[2], herosVecteur[0]);
+
+	// Afficher ce VilainHeros en console
+	vilainHeros.afficher(cout);
+	cout << trait << endl;
+
+	// Ajouter ce VilainHeros au vecteur de personnages
+	personnages.push_back(vilainHeros);
+
+	// Afficher le contenu du vecteur de personnages
+	afficherVecteur(personnages, trait);
 }
